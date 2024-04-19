@@ -7,7 +7,8 @@ def hello_world():
 
 @app.route('/webhook', methods=['POST'])
 def handle_webhook():
-    data = request.json  # Assuming the data is sent as JSON
+    data = request.json
+    print(data)
     submitted_at = data.get('Submitted at')
     name = data.get('What is the name of the Product / Service')
     product_description = data.get('What is the product / service')
