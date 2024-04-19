@@ -7,22 +7,40 @@ def hello_world():
 
 @app.route('/webhook', methods=['POST'])
 def handle_webhook():
-    data = request.json
-    print(data)
-    submitted_at = data.get('Submitted at')
-    name = data.get('What is the name of the Product / Service')
-    product_description = data.get('What is the product / service')
-    product_purpose = data.get('What does this product / service do')
-    features = data.get('What are the main features / benefits / What is included')
-    extra_info = data.get('Any extra description / info you would want in')
-    product_link = data.get('Product / Service Link')
-    product_images = data.get('Product / Service Images')
-    link_field = data.get('Untitled link field')
-    file_upload_field = data.get('Untitled file upload field')
+    data = request.json  # Assuming the data is sent as JSON
+    event_id = data.get('eventId')
+    event_type = data.get('eventType')
+    created_at = data.get('createdAt')
+    form_data = data.get('data')
+
+    response_id = form_data.get('responseId')
+    submission_id = form_data.get('submissionId')
+    respondent_id = form_data.get('respondentId')
+    form_id = form_data.get('formId')
+    form_name = form_data.get('formName')
+    form_created_at = form_data.get('createdAt')
+    fields = form_data.get('fields', [])
+
+    parsed_data = {}
+    for field in fields:
+        key = field.get('key')
+        label = field.get('label')
+        value = field.get('value')
+        parsed_data[key] = value
+
+    # Extracting specific fields
+    name = parsed_data.get('question_8NjYQo')
+    product_description = parsed_data.get('question_0VoY6Q')
+    product_purpose = parsed_data.get('question_zEWADE')
+    features = parsed_data.get('question_5XEY1b')
+    extra_info = parsed_data.get('question_dbQoxN')
+    product_link = parsed_data.get('question_YjVbW0')
+    product_images = parsed_data.get('question_Dq0odp')
+    link_field = parsed_data.get('question_laVjd6')
+    file_upload_field = parsed_data.get('question_RW8Q5P')
 
     # Here you can process the data as per your requirements
     # For now, let's just print it
-    print("Submitted at:", submitted_at)
     print("Name:", name)
     print("Product Description:", product_description)
     print("Product Purpose:", product_purpose)
